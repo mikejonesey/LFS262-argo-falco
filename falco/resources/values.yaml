@@ -1,6 +1,7 @@
 falco:
-    ebpf:
+    driver:
       enabled: true
+      kind: modern-bpf
     falcosidekick:
         enabled: true
         webui:
