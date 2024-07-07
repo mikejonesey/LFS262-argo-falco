@@ -17,7 +17,7 @@ spec:
       valueFiles:
         - values.yaml
     path: falco/resources
-    repoURL: https://github.com/lftraining/LFS262-argo-falco.git
+    repoURL: https://github.com/mikejonesey/LFS262-argo-falco.git
     targetRevision: master
   syncPolicy:
     automated:

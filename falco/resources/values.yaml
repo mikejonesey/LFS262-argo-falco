@@ -20,9 +20,15 @@ falco:
         - /etc/falco/rules.d/custom-rules.yaml
     customRules:
       custom-rules.yaml: |-
+        - macro: rename_cust
+          condition: evt.type in (rename, renameat)
+        - macro: remove_cust
+          condition: evt.type in (rmdir, unlink, unlinkat)
+        - macro: modify_cust
+          condition: rename_cust or remove_cust
         - rule: COOKIE tampering detector
           desc: Detect tampering of super precious cookie recipes
-          condition: modify and (evt.arg.oldpath startswith '/usr/share/nginx' or evt.arg.path startswith '/usr/share/nginx')
+          condition: modify_cust and (evt.arg.oldpath startswith '/usr/share/nginx' or evt.arg.path startswith '/usr/share/nginx')
           output: Cookie recipes tampering detected, secure your cookies,(uid=%user.uid container_id=%container.id container_name=%container.name image=%container.image.repository:%container.image.tag %evt.arg.oldpath)
           priority: EMERGENCY
           tags: [importantrecipesalert]
